@@ -158,6 +158,7 @@ header .wrapper {
 header .logo {
   width: 120px;
   flex-shrink: 0;
+  mix-blend-mode: multiply;
 }
 
 .menu-toggle {
@@ -297,9 +298,6 @@ header .logo {
 
 /* "index.html" styling ends here */
 
-
-
-
 /*=================================
   main styling ends here
 =================================*/
@@ -308,11 +306,64 @@ header .logo {
   footer styling starts here
 =================================*/ 
 
+footer .wrapper {
+  width: 100%;
+  padding: 30px 7%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
+  background-color: var(--clr-grey2);
+  text-transform: capitalize;
+}
 
+.footer-logo {
+  width: 150px;
+  mix-blend-mode: multiply;
+}
 
+.footer-nav-menu,
+.footer-social-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
 
+.footer-nav-menu a { color: var(--clr-grey1); }
+.footer-nav-menu a:hover { text-decoration: underline; }
 
+.footer-social-list a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  background-color: var(--clr-grey1);
+  color: var(--clr-grey2);
+  font-size: 26px;
+  text-indent: -99999px;
+}
 
+.footer-social-list a:hover {
+  background-color: var(--clr-blue2);
+  color: var(--clr-white);
+}
+
+.footer-social-list a::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: 'fontAwesome';
+  text-indent: 0;
+  transform: translate(-50%, -50%);
+}
+
+.footer-social-list li:nth-child(1) a::before { content: '\f09a'; }
+.footer-social-list li:nth-child(2) a::before { content: '\f16d'; }
+.footer-social-list li:nth-child(3) a::before { content: '\f16a'; }
+.footer-social-list li:nth-child(4) a::before { content: '\f099'; }
+.footer-copyright span { color: var(--clr-grey1); }
 
  /*=================================
   footer styling ends here
