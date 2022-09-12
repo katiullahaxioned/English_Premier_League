@@ -136,19 +136,19 @@ input[type] {
   Header styling starts here
 =================================*/
 
-header {
-  background: linear-gradient(to right, var(--clr-green2), var(--clr-blue2));
-}
-
 header .wrapper {
-  padding: 12px 0;
+  width: 100%;
+  padding: 12px 7%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  background: linear-gradient(to right, var(--clr-green2), var(--clr-blue2));
 }
 
 header .logo {
-  width: 130px;
+  width: 120px;
+  flex-shrink: 0;
 }
 
 .menu-toggle {
@@ -226,9 +226,43 @@ header .logo {
   main styling starts here
 =================================*/
 
+/* "index.html" styling starts here */
 
+/* banner section starts here */
 
+.banner .wrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.2));
+}
 
+.banner-figure {
+  width: 100%;
+  z-index: -1;
+}
+
+.banner-figure img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.banner-heading {
+  position: absolute;
+  z-index: 1;
+  font-size: 42px;
+  text-transform: capitalize;
+  font-weight: 600;
+  text-align: center;
+  color: var(--clr-white);
+  text-shadow: 0 0 4px var(--clr-black1);
+}
+
+/* banner section ends here */
+
+/* "index.html" styling ends here */
 
 
 
