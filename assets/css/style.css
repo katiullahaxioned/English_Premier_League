@@ -126,6 +126,15 @@ input[type] {
   outline: none;
 }
 
+p { line-height: 1.5; }
+
+.section-heading {
+  color: var(--clr-grey2);
+  font-size: 32px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
 /*for wrapper*/
 .wrapper {
   max-width: 1360px;
@@ -261,6 +270,30 @@ header .logo {
 }
 
 /* banner section ends here */
+
+/* about-league section starts here */
+
+.about-league .wrapper {
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.league-info,
+.league-history {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+  color: var(--clr-grey2);
+}
+
+.about-league p::first-letter {
+  text-transform: uppercase;
+}
+
+/* about-league section ends here */
 
 /* "index.html" styling ends here */
 
