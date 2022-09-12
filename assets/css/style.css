@@ -82,6 +82,27 @@ sub { bottom: -.25em; }
 .cf { *zoom: 1; }
 
 /*for all*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --clr-white: #fff;
+  --clr-blue1: #3498db;
+  --clr-blue2: #2980b9;
+  --clr-grey1: #7f8c8d;
+  --clr-grey2: #2c3e50;
+  --clr-black1: #222;
+  --clr-black2: #000;
+  --clr-green1: #1abc9c;
+  --clr-green2: #16a085;
+}
+
 body {
   box-sizing: border-box;
   font-family: sans-serif;
@@ -90,11 +111,19 @@ body {
 a { 
   display: inline-block;
   text-decoration: none; 
+  transition: all .3s;
 }
 
 li {
   display: inline-block;
   list-style-type: none;
+}
+
+span { display: inline-block; }
+
+input[type] {
+  border: none;
+  outline: none;
 }
 
 /*for wrapper*/
@@ -107,10 +136,87 @@ li {
   Header styling starts here
 =================================*/
 
+header {
+  background: linear-gradient(to right, var(--clr-green2), var(--clr-blue2));
+}
 
+header .wrapper {
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+header .logo {
+  width: 130px;
+}
 
+.menu-toggle {
+  width: 30px;
+  height: 30px;
+  display: none;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
 
+.menu-toggle .bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  background-color: var(--clr-grey2);
+  text-indent: -99999px;
+  transition: all .3s;
+}
+
+.bar-one {
+  top: 0;
+  box-shadow: 0 13px 0 var(--clr-grey2);
+}
+
+.bar-two { bottom: 0; }
+
+.bar-one.active {
+  top: 50%;
+  box-shadow: none;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.bar-two.active {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.nav-menu a {
+  color: var(--clr-white);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.nav-menu a.active { color: var(--clr-grey2); }
+.nav-menu a:hover { color: var(--clr-grey2); }
+
+.logout-button a {
+  padding: 7px 12px;
+  border-radius: 5px;
+  text-transform: capitalize;
+  color: var(--clr-white);
+  background-color: var(--clr-blue1);
+  box-shadow: 0 0 3px var(--clr-white);
+}
+
+.logout-button a:hover {
+  background-color: var(--clr-blue2);
+}
 
 /*=================================
   Header styling ends here
