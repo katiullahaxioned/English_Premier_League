@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en"> 
+<head>
+  <meta charset="utf-8">
+  <title>Clubs List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="favicon.ico" />
+  <!--font-awesome link for icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Default style-sheet is for 'media' type screen (color computer display).  -->
+  <link rel="stylesheet" media="screen" href="assets/css/style.css" >
+</head>
+<body class="clublistBody">
+  <!--container start-->
+  <div class="container">
+    <!--header section start-->
+    <header>
+      <div class="wrapper">
+        <h1 class="logo">
+          <a href="index.html" title="Premier League">
+            <img src="assets/images/logo.svg" alt="Premier League">
+          </a>
+        </h1>
+        <div class="menu-toggle">
+          <span class="bar bar-one">bar</span>
+          <span class="bar bar-two">bar</span>
+        </div>
+        <nav>
+          <ul class="nav-menu">
+            <li>
+              <a href="index.html" title="Home">home</a>
+            </li>
+            <li>
+              <a href="clublist.html" title="Clubs List">clubs list</a>
+            </li>
+            <li>
+              <a href="matchdetails.html" title="Match Details">match details</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="logout-button">
+          <a href="login.html" title="Logout">logout</a>
+        </div>
+      </div>
+    </header>
+    <!--header section end-->
+    <!--main section start-->
+    <main>
+      <!-- club-summary section start -->
+      <div class="club-summary">
+        <div class="wrapper">
+          <h3 class="section-heading">club match summary</h3>
+          <form action="#FIXME" method="get" name="formClubSummary" class="form-club-summary">
+            <select name="clublist" id="clubList">
+              <option value="">-select team-</option>
+            </select>
+          </form>
+          <ul class="club-summary-list">
+            <li>
+              <span class="match-date">date</span>
+              <div class="team-summary">
+                <div class="team-one-summary">
+                  <h4 class="team-one">team 1</h4>
+                  <span class="team-one-score">0</span>
+                </div>
+                <div class="team-two-summary">
+                  <span class="team-two-score">0</span>
+                  <h4 class="team-two">team 2</h4>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="show-more-button">
+            <a href="#FIXME" title="Show More">show more</a>
+          </div>
+        </div>
+      </div>
+      <!-- club-summary section end -->
+    </main>
+    <!--main section end-->
+    <!--footer section start-->
+    <footer>      
+      <div class="wrapper">
+        <!-- footer-logo section start -->
+        <div class="footer-logo">
+          <a href="index.html" title="Premier League">
+            <img src="assets/images/logo.svg" alt="Premier League">
+          </a>
+        </div>
+        <!-- footer-logo section end -->
+        <!-- footer-nav-menu section start -->
+        <ul class="footer-nav-menu">
+          <li>
+            <a href="index.html" title="Home">home</a>
+          </li>
+          <li>
+            <a href="clublist.html" title="Clubs List">clubs list</a>
+          </li>
+          <li>
+            <a href="matchdetails.html" title="Match Details">match details</a>
+          </li>
+        </ul>
+        <!-- footer-nav-menu section end -->
+        <!-- footer-social section start -->
+        <div class="footer-social">
+          <ul class="footer-social-list">
+            <li>
+              <a href="#FIXME" title="Facebook" target="_blank">facebook</a>
+            </li>
+            <li>
+              <a href="#FIXME" title="Instagram" target="_blank">instagram</a>
+            </li>
+            <li>
+              <a href="#FIXME" title="Youtube" target="_blank">youtube</a>
+            </li>
+            <li>
+              <a href="#FIXME" title="Twitter" target="_blank">twitter</a>
+            </li>
+          </ul>
+        </div>
+        <!-- footer-social section end -->
+        <!-- footer-copyright section start -->
+        <div class="footer-copyright">
+          <span>&copy; premier league 2022</span>
+        </div>
+        <!-- footer-copyright section end -->
+      </div>
+    </footer>
+    <!--footer section end-->
+  </div>
+  <!--container end-->
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
