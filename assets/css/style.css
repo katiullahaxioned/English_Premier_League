@@ -101,6 +101,8 @@ sub { bottom: -.25em; }
   --clr-black2: #000;
   --clr-green1: #1abc9c;
   --clr-green2: #16a085;
+  --clr-red: #c0392b;
+
 }
 
 body {
@@ -414,6 +416,150 @@ header .logo {
 .show-more-button a:hover { background-color: var(--clr-blue2); }
 
 /* "clublist.html" & "matchdetails.html" styling ends here */
+
+/* "login.html" styling starts here */
+
+.login-register .wrapper {
+  width: 100%;
+  max-height: 100vh;
+  height: 100vh;
+  padding: 95px 0 40px;
+  display: flex;
+  overflow: hidden;
+  align-items: flex-start;
+  background: url('../images/logo.svg') no-repeat top center;
+  background-color: var(--clr-grey1);
+  justify-content: center;
+}
+
+.form-cards {
+  min-width: 360px;
+  width: 30%;
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1500px;
+}
+
+.login-card,
+.signup-card {
+  width: 100%;
+  padding: 20px 10px;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  flex-direction: column;
+  gap: 15px;
+  transition: all .3s;
+}
+
+.login-card {
+  background-color: var(--clr-blue2);
+  transform: rotateY(0deg);
+  visibility: visible;
+}
+
+.login-card.active {
+  transform: rotateY(180deg);
+  visibility: hidden;
+}
+
+.signup-card {
+  background-color: var(--clr-green2);
+  visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+.signup-card.active {
+  transform: rotateY(0deg);
+  visibility: visible;
+}
+
+.form-cards h2 {
+  color: var(--clr-white);
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.form-cards form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-group label {
+  color: var(--clr-white);
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+.input-group input {
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--clr-white);
+  font-size: 15px;
+}
+
+.login-card .input-group input { background-color: var(--clr-blue1) }
+.signup-card .input-group input { background-color: var(--clr-green1); }
+.input-group input::placeholder { color: var(--clr-grey2); }
+.input-control { text-align: center; }
+
+.input-control input {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: var(--clr-grey2);
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+  transition: all .3s;
+}
+
+.input-control input:hover { opacity: .7; }
+
+.errorAlert {
+  color: var(--clr-red);
+  font-size: 12px;
+  letter-spacing: 1px;
+  opacity: 0;
+  text-shadow: 0 1px 1px var(--clr-black2);
+  visibility: hidden;
+}
+
+.errorAlert.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.errorAlert::before { content: '* '; }
+
+.form-cards p {
+  color: var(--clr-grey2);
+  font-size: 14px;
+}
+
+.form-cards p::first-letter { text-transform: capitalize; }
+
+.form-cards p span {
+  color: var(--clr-black1);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.form-cards p span:hover { text-decoration: underline; }
+
+/* "login.html" styling ends here */
 
 /*=================================
   main styling ends here
