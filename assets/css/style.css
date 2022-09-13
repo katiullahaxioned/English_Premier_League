@@ -223,7 +223,6 @@ header .logo {
 }
 
 .nav-menu a.active { color: var(--clr-grey2); }
-.nav-menu a:hover { color: var(--clr-grey2); }
 
 .logout-button a {
   padding: 7px 12px;
@@ -232,10 +231,6 @@ header .logo {
   color: var(--clr-white);
   background-color: var(--clr-blue1);
   box-shadow: 0 0 3px var(--clr-white);
-}
-
-.logout-button a:hover {
-  background-color: var(--clr-blue2);
 }
 
 /*=================================
@@ -330,12 +325,14 @@ header .logo {
   text-transform: capitalize;
 }
 
-.input-group label {
+.club-summary .input-group label,
+.match-details .input-group label {
   color: var(--clr-grey2);
   font-weight: 600;
 }
 
-.input-group select {
+.club-summary .input-group select,
+.match-details .input-group select {
   padding: 10px;
   background-color: var(--clr-grey1);
   color: var(--clr-grey2);
@@ -413,9 +410,9 @@ header .logo {
   text-transform: capitalize;
 }
 
-.show-more-button a:hover { background-color: var(--clr-blue2); }
-
 /* "clublist.html" & "matchdetails.html" styling ends here */
+
+/* ************************************** */
 
 /* "login.html" styling starts here */
 
@@ -490,19 +487,19 @@ header .logo {
   gap: 10px;
 }
 
-.input-group {
+.form-cards .input-group {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.input-group label {
+.form-cards .input-group label {
   color: var(--clr-white);
   font-size: 16px;
   text-transform: capitalize;
 }
 
-.input-group input {
+.form-cards .input-group input {
   padding: 10px;
   border-radius: 5px;
   color: var(--clr-white);
@@ -511,10 +508,10 @@ header .logo {
 
 .login-card .input-group input { background-color: var(--clr-blue1) }
 .signup-card .input-group input { background-color: var(--clr-green1); }
-.input-group input::placeholder { color: var(--clr-grey2); }
-.input-control { text-align: center; }
+.form-cards .input-group input::placeholder { color: var(--clr-grey2); }
+.form-cards .input-control { text-align: center; }
 
-.input-control input {
+.form-cards .input-control input {
   padding: 10px 20px;
   border-radius: 5px;
   color: var(--clr-grey2);
@@ -524,9 +521,7 @@ header .logo {
   transition: all .3s;
 }
 
-.input-control input:hover { opacity: .7; }
-
-.errorAlert {
+.form-cards .errorAlert {
   color: var(--clr-red);
   font-size: 12px;
   letter-spacing: 1px;
@@ -535,12 +530,12 @@ header .logo {
   visibility: hidden;
 }
 
-.errorAlert.active {
+.form-cards .errorAlert.active {
   opacity: 1;
   visibility: visible;
 }
 
-.errorAlert::before { content: '* '; }
+.form-cards .errorAlert::before { content: '* '; }
 
 .form-cards p {
   color: var(--clr-grey2);
@@ -557,8 +552,6 @@ header .logo {
   text-transform: capitalize;
 }
 
-.form-cards p span:hover { text-decoration: underline; }
-
 /* "login.html" styling ends here */
 
 /*=================================
@@ -571,15 +564,17 @@ header .logo {
 
 footer .wrapper {
   width: 100%;
-  padding: 30px 7%;
+  padding: 20px 7%;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  gap: 25px;
   background-color: var(--clr-grey2);
   text-transform: capitalize;
 }
+
+footer .wrapper > * {  padding: 20px 0; }
+footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); }
 
 .footer-logo {
   width: 150px;
@@ -595,7 +590,6 @@ footer .wrapper {
 }
 
 .footer-nav-menu a { color: var(--clr-grey1); }
-.footer-nav-menu a:hover { text-decoration: underline; }
 
 .footer-social-list a {
   width: 40px;
@@ -606,11 +600,6 @@ footer .wrapper {
   color: var(--clr-grey2);
   font-size: 26px;
   text-indent: -99999px;
-}
-
-.footer-social-list a:hover {
-  background-color: var(--clr-blue2);
-  color: var(--clr-white);
 }
 
 .footer-social-list a::before {
@@ -633,9 +622,72 @@ footer .wrapper {
 =================================*/ 
 
 /*media query starts*/
-/*media query for 995px starts here*/
-@media only screen and (max-width: 995px) {
+/*media query for min-width: 1024px starts here*/
+@media only screen and (min-width: 1024px) {
 
+  .nav-menu a:hover { color: var(--clr-grey2); }
 
+  .logout-button a:hover,
+  .show-more-button a:hover {
+    background-color: var(--clr-blue2);
+  }
 
-}  
+  .input-control input:hover { opacity: .7; }
+
+  .form-cards p span:hover,
+  .footer-nav-menu a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-social-list a:hover {
+    background-color: var(--clr-blue2);
+    color: var(--clr-white);
+  }
+
+}
+
+/*media query for max-width: 1024px starts here*/
+@media only screen and (max-width: 1024px) {
+
+  /* header styling starts here */
+
+  header .wrapper { padding: 12px 3%; }
+
+  /* header styling ends here */
+
+  /* ************************************** */
+
+  /* "index.html" styling starts here */
+
+  /* about-league section starts here */
+
+  .about-league .wrapper {
+    width: 100%;
+    padding: 60px 3%;
+  }
+
+  /* about-league section ends here */
+
+  /* "index.html" styling ends here */
+
+  /* ************************************** */
+
+  /* "clublist.html" & "matchdetails.html" styling starts here */
+
+  .club-summary .wrapper,
+  .match-details .wrapper {
+    width: 100%;
+    padding: 60px 3%;
+  }
+
+  /* "clublist.html" & "matchdetails.html" styling ends here */
+
+  /* ************************************** */
+
+  /* footer section starts here */
+
+  footer .wrapper { padding: 20px 3%; }
+
+  /* footer section ends here */
+
+}
