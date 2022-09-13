@@ -349,7 +349,7 @@ header .logo {
 }
 
 .club-summary-list li {
-  padding: 10px;
+  padding: 10px 0;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -773,6 +773,8 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
 
   /* about-league section ends here */
 
+  /* "index.html" styling ends here */
+
   /* ************************************** */
 
   /* "clublist.html" & "matchdetails.html" styling starts here */
@@ -831,5 +833,59 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
   }
 
   /* footer styling ends here */
+
+}
+
+/*media query for max-width: 480px starts here*/
+@media only screen and (max-width: 480px) {
+
+  /* "index.html" styling starts here */
+
+  /* about-league section starts here */
+
+  .about-league .wrapper { gap: 20px; }
+  
+  .league-info,
+  .league-history {
+    gap: 12px;
+  }
+
+  /* about-league section ends here */
+
+  /* "index.html" styling ends here */
+
+  /* ************************************** */
+
+  /* "clublist.html" & "matchdetails.html" styling starts here */
+
+  .club-summary .section-heading,
+  .match-details .section-heading {
+    text-align: center;
+  }
+
+  .match-date,
+  .team-summary h4 {
+    font-size: 18px;
+  }
+  
+  .team-summary span { font-size: 20px; }
+  
+  /* "clublist.html" & "matchdetails.html" styling ends here */
+  
+  /* ************************************** */
+
+  /* "login.html" styling starts here */
+
+  .form-cards {
+    min-width: 250px;
+    width: 96%;
+  }
+
+  .login-card,
+  .signup-card {
+    padding: 10px;
+  }
+
+  /* "login.html" styling ends here */
 
 }
