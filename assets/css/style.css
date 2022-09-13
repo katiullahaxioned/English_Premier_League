@@ -372,7 +372,6 @@ header .logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   background: linear-gradient(var(--clr-blue1), var(--clr-blue2));
 }
 
@@ -384,6 +383,8 @@ header .logo {
   justify-content: space-between;
 }
 
+.team-one-summary { border-right: 2px solid var(--clr-white); }
+
 .team-summary h4 {
   color: var(--clr-white);
   font-size: 20px;
@@ -392,6 +393,7 @@ header .logo {
 .match-details h4 { cursor: pointer; }
 
 .team-summary span {
+  padding: 0 10px;
   color: var(--clr-white);
   font-size: 28px;
   font-weight: 600;
@@ -689,5 +691,145 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
   footer .wrapper { padding: 20px 3%; }
 
   /* footer section ends here */
+
+}
+
+/*media query for max-width: 767px starts here*/
+@media only screen and (max-width: 767px) {
+
+  .section-heading { font-size: 26px; }
+
+  /* Header styling starts here */
+
+  header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    box-shadow: 0 2px 10px var(--clr-black2);
+  }
+
+  header .wrapper {
+    justify-content: flex-end;
+    gap: 25px;
+  }
+
+  header .logo {
+    width: 100px;
+    position: absolute;
+    left: 3%;
+  }
+
+  .menu-toggle {
+    display: block;
+    order: 4;
+    z-index: 5;
+  }
+
+  nav {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: -101%;
+    z-index: 4;
+    background: linear-gradient(to right, var(--clr-green2),var(--clr-blue2));
+    transition: all .3s;
+  }
+
+  nav.active { left: 0; }
+
+  .nav-menu {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .nav-menu a { font-size: 18px; }
+
+  /* Header styling ends here */
+
+/* ************************************** */
+
+  /* "index.html" styling starts here */
+
+  /* banner section starts here */
+
+  .banner-figure { height: 100vh; }
+  .banner-figure img { height: 100%; }
+
+  .banner-heading {
+    padding: 0 10px;
+    font-size: 34px;
+  }
+
+  /* banner section ends here */
+
+  /* about-league section starts here */
+  
+  .about-league p { text-align: justify; }
+
+  /* about-league section ends here */
+
+  /* ************************************** */
+
+  /* "clublist.html" & "matchdetails.html" styling starts here */
+
+  .club-summary .input-group,
+  .match-details .input-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .club-summary-list li {
+    flex-direction: column;
+  }
+
+  .match-date { font-size: 20px; }
+
+  .team-summary {
+    padding: 5px;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  
+  .team-one-summary,
+  .team-two-summary {
+    flex: 1 0 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .team-one-summary { 
+    border-right: none;
+    border-bottom: 2px solid var(--clr-white); 
+  }
+
+  .team-summary span {
+    padding: 5px;
+    font-size: 24px;
+  }
+  
+  /* "clublist.html" & "matchdetails.html" styling ends here */
+  
+  /* ************************************** */
+
+  /* footer styling starts here */
+
+  .footer-logo { width: 100px; }
+
+  .footer-nav-menu {
+    flex-direction: column;
+  }
+
+  .footer-social-list a {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  /* footer styling ends here */
 
 }
