@@ -3,7 +3,9 @@ function preventBack() {
   window.history.forward();
 }
 
-preventBack();
+window.addEventListener("load", function () {
+  preventBack();
+});
 // *** prevent current active page to go to previous page : end *** //
 
 // *** logout function declaration start *** //
@@ -16,23 +18,214 @@ function logOutPage(e) {
 }
 // *** logout function declaration end *** //
 
-// condition to run JS code for active page only : start //
-if (document.body.classList.contains("loginBody")) {
-  loginPageJS();
-} else if (document.body.classList.contains("indexBody")) {
-  indexPageJS();
-} else if (document.body.classList.contains("clublistBody")) {
-  clublistPageJS();
-} else if (document.body.classList.contains("matchdetailsBody")) {
-  matchdetailsPageJS();
+// *** active nav link : start *** //
+var navAnchors = document.querySelectorAll('.nav-menu a');
+var currentLocation = location.href;
+
+function activeAnchor() {
+  navAnchors.forEach(function(anchor){
+    var anchorHref = anchor.href;
+
+    if(anchorHref == currentLocation) {
+      anchor.classList.add('active');
+    } else {
+      anchor.classList.remove('active');
+    }
+  })
 }
-// condition to run JS code for active page only : end //
+
+activeAnchor();
+// *** active nav link : end *** //
+
+// *** API fetch : start *** //
+var apiLinkClub = 'https://raw.githubusercontent.com/openfootball/football.json/master/2015-16/en.1.clubs.json';
+var apiLinkMatch = 'https://raw.githubusercontent.com/openfootball/football.json/master/2019-20/en.1.json';
+
+// showMoreList()
+function showMoreList(startNum, endNum, listItem, showMoreButton) {
+  for (var i = startNum; i < endNum; i++) {
+    if (endNum == listItem.length) {
+      showMoreButton.classList.remove("active");
+    }
+    listItem[i].style.display = "";
+  }
+}
+
+// showClubList()
+function showClubList(selectedValue, clubSummaryList, showMoreButton, apiLinkMatch) {
+  fetch(apiLinkMatch)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (match) {
+      var clubMatchAll = match.matches;
+      var clubMatchLength = clubMatchAll.length;
+
+      for (var j = 0; j < clubMatchLength; j++) {
+        if (selectedValue == (clubMatchAll[j].team1 || clubMatchAll[j].team2)) {
+          clubSummaryList.innerHTML +=
+            '<li><span class="match-date">' +
+            clubMatchAll[j].date +
+            '</span><div class="team-summary"><div class="team-one-summary"><h4 class="team-one">' +
+            clubMatchAll[j].team1 +
+            '</h4><span class="team-one-score">' +
+            clubMatchAll[j].score.ft[0] +
+            '</span></div><div class="team-two-summary"><span class="team-two-score">' +
+            clubMatchAll[j].score.ft[1] +
+            '</span><h4 class="team-two">' +
+            clubMatchAll[j].team2 +
+            "</h4></div></div></li>";
+        }
+      }
+
+      var initialNum = 0;
+      var tillNum = 5;
+      var listItem = clubSummaryList.children;
+
+      if (clubSummaryList.innerHTML != "") {
+        showMoreButton.classList.add("active");
+      } else {
+        showMoreButton.classList.remove("active");
+      }
+
+      if (listItem.length != 0) {
+        for (var li of listItem) {
+          li.style.display = "none";
+        }
+
+        showMoreList(initialNum, tillNum, listItem, showMoreButton);
+
+        showMoreButton.addEventListener("click", function (e) {
+          e.preventDefault();
+          initialNum = tillNum;
+          tillNum += 5;
+          if (tillNum >= listItem.length) tillNum = listItem.length;
+          showMoreList(initialNum, tillNum, listItem, showMoreButton);
+        });
+      } else {
+        clubSummaryList.innerHTML =
+          '<span style="text-align: center">no data found</span>';
+        showMoreButton.classList.remove("active");
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+// getClub()
+function getClub(selectClubList) {
+  fetch(apiLinkMatch)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (match) {
+      var matchAll = match.matches;
+      var clubNamesArr = [];
+
+      matchAll.forEach(function (match) {
+        if (!clubNamesArr.includes(match.team1)) {
+          clubNamesArr.push(match.team1);
+        }
+        if (!clubNamesArr.includes(match.team2)) {
+          clubNamesArr.push(match.team2);
+        }
+      });
+
+      clubNamesArr.forEach(function (clubname) {
+        selectClubList.innerHTML +=
+          '<option value="' + clubname + '">' + clubname + "</option>";
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+// getMatchday()
+function getMatchday(selectMatchDay, clubSummaryList) {
+  fetch(apiLinkMatch)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (match) {
+      var matchAll = match.matches;
+      var matchDayArr = [];
+
+      matchAll.forEach(function (match) {
+        if (!matchDayArr.includes(match.round)) {
+          matchDayArr.push(match.round);
+        }
+      });
+
+      matchDayArr.forEach(function (matchday) {
+        selectMatchDay.innerHTML +=
+          '<option value="' + matchday + '">' + matchday + "</option>";
+      });
+
+      selectMatchDay.addEventListener("change", function () {
+        var selectedValue = this.value;
+
+        clubSummaryList.innerHTML = "";
+
+        if (this.value != "") {
+          var clubMatchAll = match.matches;
+          var clubMatchLength = clubMatchAll.length;
+
+          for (var j = 0; j < clubMatchLength; j++) {
+            if (selectedValue == clubMatchAll[j].round) {
+              clubSummaryList.innerHTML +=
+                '<li><span class="match-date">' +
+                clubMatchAll[j].date +
+                '</span><div class="team-summary"><div class="team-one-summary"><h4 class="team-one">' +
+                clubMatchAll[j].team1 +
+                '</h4><span class="team-one-score">' +
+                clubMatchAll[j].score.ft[0] +
+                '</span></div><div class="team-two-summary"><span class="team-two-score">' +
+                clubMatchAll[j].score.ft[1] +
+                '</span><h4 class="team-two">' +
+                clubMatchAll[j].team2 +
+                "</h4></div></div></li>";
+            }
+          }
+
+          var listItem = clubSummaryList.children;
+
+          if (listItem.length != 0) {
+            for (var a = 0; a < listItem.length; a++) {
+              var teams = listItem[a].querySelectorAll("h4");
+              teams.forEach(function (team) {
+                team.addEventListener("click", function () {
+                  localStorage.setItem("teamName", team.innerText);
+                  location.href = "English_Premier_League/../clublist.html";
+                });
+              });
+            }
+          } else {
+            clubSummaryList.innerHTML =
+              '<span style="text-align: center">no data found</span>';
+          }
+        }
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+// *** API fetch : end *** //
 
 // *********************** matchdetailsPageJS() start ************************** //
 function matchdetailsPageJS() {
   if (!localStorage.getItem("isLoggedIn")) {
     location.href = "English_Premier_League/../login.html";
   }
+
+  var selectMatchDay = document.getElementById("selectMatchDay");
+  var clubSummaryList = document.querySelector(".club-summary-list");
+
+  clubSummaryList.innerHTML = "";
+
+  getMatchday(selectMatchDay, clubSummaryList);
 
   logOut.addEventListener("click", function (e) {
     logOutPage(e);
@@ -45,6 +238,44 @@ function clublistPageJS() {
   if (!localStorage.getItem("isLoggedIn")) {
     location.href = "English_Premier_League/../login.html";
   }
+
+  var selectClubList = document.getElementById("selectClubList");
+  var showMoreButton = document.querySelector(".show-more-button");
+  var clubSummaryList = document.querySelector(".club-summary-list");
+
+  clubSummaryList.innerHTML = "";
+  showMoreButton.classList.remove("active");
+
+  getClub(selectClubList);
+
+  // *** get localStorage value of teamName : start *** //
+  setTimeout(function () {
+    var getTeamName = localStorage.getItem("teamName");
+    localStorage.removeItem("teamName");
+
+    if (getTeamName) {
+      clubSummaryList.innerHTML = "";
+      selectClubList.value = getTeamName;
+
+      if (selectClubList.value != "") {
+        showClubList(selectClubList.value, clubSummaryList, showMoreButton, apiLinkMatch);
+      } else {
+        console.log("err");
+      }
+    }
+  }, 1000);
+  // *** get localStorage value of teamName : end *** //
+
+  selectClubList.addEventListener("change", function () {
+    var selectedValue = this.value;
+
+    clubSummaryList.innerHTML = "";
+    showMoreButton.classList.remove("active");
+
+    if (this.value != "") {
+      showClubList(selectedValue, clubSummaryList, showMoreButton, apiLinkMatch);
+    }
+  });
 
   logOut.addEventListener("click", function (e) {
     logOutPage(e);
@@ -201,6 +432,8 @@ function loginPageJS() {
     signupCard.classList.add("active");
     loginEmail.value = "";
     loginPassword.value = "";
+    loginEmail.nextElementSibling.classList.remove("active");
+    loginPassword.nextElementSibling.classList.remove("active");
   });
 
   spanLogin.addEventListener("click", function () {
@@ -209,7 +442,22 @@ function loginPageJS() {
     signupName.value = "";
     signupEmail.value = "";
     signupPassword.value = "";
+    signupName.nextElementSibling.classList.remove("active");
+    signupEmail.nextElementSibling.classList.remove("active");
+    signupPassword.nextElementSibling.classList.remove("active");
   });
   // ------------ Login / SignUp toggle code end ------------- //
 }
 // *********************** loginPageJS() end ************************** //
+
+// condition to run JS code for active page only : start //
+if (document.body.classList.contains("loginBody")) {
+  loginPageJS();
+} else if (document.body.classList.contains("indexBody")) {
+  indexPageJS();
+} else if (document.body.classList.contains("clublistBody")) {
+  clublistPageJS();
+} else if (document.body.classList.contains("matchdetailsBody")) {
+  matchdetailsPageJS();
+}
+// condition to run JS code for active page only : end //
