@@ -33,9 +33,24 @@ function activeAnchor() {
     }
   })
 }
-
-activeAnchor();
 // *** active nav link : end *** //
+
+// *** menu toggle hamburger : start *** //
+var menuToggle = document.querySelector('.menu-toggle');
+var nav = document.querySelector('nav');
+var html = document.querySelector('html');
+
+function navMenuToggle() {
+  var bars = menuToggle.querySelectorAll(".bar");
+
+  for (var i = 0; i < bars.length; i++) {
+    bars[i].classList.toggle("active");
+  }
+
+  nav.classList.toggle("active");
+  html.classList.toggle("overflow-hidden");
+}
+// *** menu toggle hamburger : end *** //
 
 // *** API fetch : start *** //
 var apiLinkClub = 'https://raw.githubusercontent.com/openfootball/football.json/master/2015-16/en.1.clubs.json';
@@ -134,7 +149,7 @@ function getClub(selectClubList) {
 
       clubNamesArr.forEach(function (clubname) {
         selectClubList.innerHTML +=
-          '<option value="' + clubname + '">' + clubname + "</option>";
+        '<option value="' + clubname + '">' + clubname + "</option>";
       });
     })
     .catch(function (error) {
@@ -223,9 +238,15 @@ function matchdetailsPageJS() {
   var selectMatchDay = document.getElementById("selectMatchDay");
   var clubSummaryList = document.querySelector(".club-summary-list");
 
+  activeAnchor();
+  
   clubSummaryList.innerHTML = "";
 
   getMatchday(selectMatchDay, clubSummaryList);
+
+  menuToggle.addEventListener('click', function(){
+    navMenuToggle();
+  })
 
   logOut.addEventListener("click", function (e) {
     logOutPage(e);
@@ -243,27 +264,29 @@ function clublistPageJS() {
   var showMoreButton = document.querySelector(".show-more-button");
   var clubSummaryList = document.querySelector(".club-summary-list");
 
+  activeAnchor();
+
   clubSummaryList.innerHTML = "";
   showMoreButton.classList.remove("active");
 
   getClub(selectClubList);
 
   // *** get localStorage value of teamName : start *** //
-  setTimeout(function () {
+  setTimeout(function(){
     var getTeamName = localStorage.getItem("teamName");
     localStorage.removeItem("teamName");
-
+    
     if (getTeamName) {
       clubSummaryList.innerHTML = "";
       selectClubList.value = getTeamName;
-
+      
       if (selectClubList.value != "") {
         showClubList(selectClubList.value, clubSummaryList, showMoreButton, apiLinkMatch);
       } else {
         console.log("err");
       }
     }
-  }, 1000);
+  }, 1500)
   // *** get localStorage value of teamName : end *** //
 
   selectClubList.addEventListener("change", function () {
@@ -277,6 +300,10 @@ function clublistPageJS() {
     }
   });
 
+  menuToggle.addEventListener('click', function(){
+    navMenuToggle();
+  })
+
   logOut.addEventListener("click", function (e) {
     logOutPage(e);
   });
@@ -288,6 +315,12 @@ function indexPageJS() {
   if (!localStorage.getItem("isLoggedIn")) {
     location.href = "English_Premier_League/../login.html";
   }
+
+  activeAnchor();
+
+  menuToggle.addEventListener('click', function(){
+    navMenuToggle();
+  })
 
   logOut.addEventListener("click", function (e) {
     logOutPage(e);
@@ -421,7 +454,7 @@ function loginPageJS() {
       loginEmail.value = "";
       loginPassword.value = "";
       location.href = "English_Premier_League/../index.html";
-      // localStorage.removeItem('user');
+      localStorage.removeItem('user');
     }
   });
   // ------------ Login code end ------------- //
