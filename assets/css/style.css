@@ -147,7 +147,7 @@ html.overflow-hidden { overflow: hidden; }
 
 /*for wrapper*/
 .wrapper {
-  max-width: 1360px;
+  max-width: 1366px;
   width: 86%; 
   margin: 0 auto;
 }
@@ -159,10 +159,10 @@ header .wrapper {
   width: 100%;
   padding: 12px 7%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   position: relative;
+  align-items: center;
   background: linear-gradient(to right, var(--clr-green2), var(--clr-blue2));
+  justify-content: space-between;
 }
 
 header .logo {
@@ -212,8 +212,8 @@ header .logo {
 .nav-menu {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 50px;
+  justify-content: center;
 }
 
 .nav-menu a {
@@ -227,10 +227,10 @@ header .logo {
 .logout-button a {
   padding: 7px 12px;
   border-radius: 5px;
-  text-transform: capitalize;
-  color: var(--clr-white);
   background-color: var(--clr-blue1);
   box-shadow: 0 0 3px var(--clr-white);
+  color: var(--clr-white);
+  text-transform: capitalize;
 }
 
 /*=================================
@@ -247,32 +247,79 @@ header .logo {
 
 .banner .wrapper {
   width: 100%;
-  position: relative;
+  height: 92vh;
   display: flex;
+  overflow: hidden;
+  position: relative;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.2));
 }
 
-.banner-figure {
+.banner-slider {
+  height: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  transition: all .3s;
+}
+
+.banner-slider-list {
+  height: 100%;
+  position: relative;
+  flex: 1 0 100%;
+}
+
+.banner-slider-list img {
   width: 100%;
-  z-index: -1;
-}
-
-.banner-figure img {
+  height: 100%;
   object-fit: cover;
   object-position: center;
 }
 
-.banner-heading {
+.slider-control {
+  width: 92%;
+  display: flex;
   position: absolute;
-  z-index: 1;
-  font-size: 42px;
-  text-transform: capitalize;
-  font-weight: 600;
-  text-align: center;
-  color: var(--clr-white);
-  text-shadow: 0 0 4px var(--clr-black1);
+  justify-content: space-between;
+}
+
+.slider-control .control {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  background-color: rgba(0,0,0,0.5);
+  cursor: pointer;
+  text-indent: -99999px;
+  transition: all .3s;
+}
+
+.visibility-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.slider-control .control::before {
+  content: '';
+  width: 50%;
+  height: 50%;
+  border-bottom: 3px solid var(--clr-white);
+  border-left: 3px solid var(--clr-white);
+  border-radius: 7px 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: transparent;
+  transition: all .3s;
+}
+
+.slider-control .control:first-child::before {
+  transform: translate(-40%, -50%) rotate(45deg);
+} 
+
+.slider-control .control:last-child::before {
+  transform: translate(-60%, -50%) rotate(-135deg);
 }
 
 /* banner section ends here */
@@ -291,13 +338,11 @@ header .logo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 30px;
   color: var(--clr-grey2);
+  gap: 30px;
 }
 
-.about-league p::first-letter {
-  text-transform: uppercase;
-}
+.about-league p::first-letter { text-transform: uppercase; }
 
 /* about-league section ends here */
 
@@ -309,11 +354,11 @@ header .logo {
 
 .club-summary .wrapper,
 .match-details .wrapper {
+  min-height: 80vh;
   padding: 60px 0;
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
   gap: 30px;
 }
 
@@ -341,6 +386,12 @@ header .logo {
   text-transform: capitalize;
 }
 
+.club-summary .input-group select::-webkit-scrollbar,
+.match-details .input-group select::-webkit-scrollbar {
+  width: 0;
+  overflow: hidden;
+}
+
 .club-summary-list {
   width: 100%;
   display: flex;
@@ -354,14 +405,14 @@ header .logo {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 7px;
+  justify-content: center;
   text-transform: capitalize;
 }
 
 .match-date {
-  flex: 1 0 100%;
   color: var(--clr-black1);
+  flex: 1 0 100%;
   font-size: 24px;
 }
 
@@ -371,15 +422,15 @@ header .logo {
   border-radius: 5px;
   display: flex;
   align-items: center;
-  justify-content: center;
   background: linear-gradient(var(--clr-blue1), var(--clr-blue2));
+  justify-content: center;
 }
 
 .team-one-summary,
 .team-two-summary {
-  flex-basis: 48%;
   display: flex;
   align-items: center;
+  flex-basis: 48%;
   justify-content: space-between;
 }
 
@@ -435,8 +486,8 @@ header .logo {
   min-width: 360px;
   width: 30%;
   position: relative;
-  transform-style: preserve-3d;
   perspective: 1500px;
+  transform-style: preserve-3d;
 }
 
 .login-card,
@@ -466,8 +517,8 @@ header .logo {
 
 .signup-card {
   background-color: var(--clr-green2);
-  visibility: hidden;
   transform: rotateY(180deg);
+  visibility: hidden;
 }
 
 .signup-card.active {
@@ -569,9 +620,9 @@ footer .wrapper {
   padding: 20px 7%;
   display: flex;
   align-items: center;
+  background-color: var(--clr-grey2);
   flex-direction: column;
   justify-content: center;
-  background-color: var(--clr-grey2);
   text-transform: capitalize;
 }
 
@@ -587,8 +638,8 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
 .footer-social-list {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 20px;
+  justify-content: center;
 }
 
 .footer-nav-menu a { color: var(--clr-grey1); }
@@ -634,6 +685,8 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
     background-color: var(--clr-blue2);
   }
 
+  .slider-control .control:hover { background-color: var(--clr-black1); }
+  .slider-control .control:hover::before { border-color: var(--clr-grey1); }
   .input-control input:hover { opacity: .7; }
 
   .form-cards p span:hover,
@@ -651,46 +704,24 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
 /*media query for max-width: 1024px starts here*/
 @media only screen and (max-width: 1024px) {
 
-  /* header styling starts here */
-
-  header .wrapper { padding: 12px 3%; }
-
-  /* header styling ends here */
-
-  /* ************************************** */
-
-  /* "index.html" styling starts here */
-
-  /* about-league section starts here */
-
-  .about-league .wrapper {
-    width: 100%;
-    padding: 60px 3%;
+  header .wrapper,
+  footer .wrapper {
+    padding: 12px 3%;
   }
 
-  /* about-league section ends here */
-
-  /* "index.html" styling ends here */
-
-  /* ************************************** */
-
-  /* "clublist.html" & "matchdetails.html" styling starts here */
-
+  .about-league .wrapper,
   .club-summary .wrapper,
   .match-details .wrapper {
     width: 100%;
-    padding: 60px 3%;
+    padding: 40px 3%;
   }
 
-  /* "clublist.html" & "matchdetails.html" styling ends here */
+}
 
-  /* ************************************** */
+/*media query for max-width: 995px starts here*/
+@media only screen and (max-width: 995px) {
 
-  /* footer section starts here */
-
-  footer .wrapper { padding: 20px 3%; }
-
-  /* footer section ends here */
+  .banner .wrapper { height: 96vh; }
 
 }
 
@@ -710,8 +741,8 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
   }
 
   header .wrapper {
-    justify-content: flex-end;
     gap: 25px;
+    justify-content: flex-end;
   }
 
   header .logo {
@@ -722,8 +753,8 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
 
   .menu-toggle {
     display: block;
-    order: 4;
     z-index: 5;
+    order: 4;
   }
 
   nav {
@@ -755,23 +786,7 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
 
   /* "index.html" styling starts here */
 
-  /* banner section starts here */
-
-  .banner-figure { height: 100vh; }
-  .banner-figure img { height: 100%; }
-
-  .banner-heading {
-    padding: 0 10px;
-    font-size: 34px;
-  }
-
-  /* banner section ends here */
-
-  /* about-league section starts here */
-  
   .about-league p { text-align: justify; }
-
-  /* about-league section ends here */
 
   /* "index.html" styling ends here */
 
@@ -843,8 +858,7 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
 
   /* about-league section starts here */
 
-  .about-league .wrapper { gap: 20px; }
-  
+  .about-league .wrapper,
   .league-info,
   .league-history {
     gap: 12px;
@@ -864,11 +878,10 @@ footer .wrapper > *:not(:first-child) { border-top: 2px solid var(--clr-grey1); 
   }
 
   .match-date,
-  .team-summary h4 {
-    font-size: 18px;
+  .team-summary h4,
+  .team-summary span {
+    font-size: 16px;
   }
-  
-  .team-summary span { font-size: 20px; }
   
   /* "clublist.html" & "matchdetails.html" styling ends here */
   
