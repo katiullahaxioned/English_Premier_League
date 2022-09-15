@@ -52,6 +52,31 @@ function navMenuToggle() {
 }
 // *** menu toggle hamburger : end *** //
 
+// *** banner slider : start *** //
+var bannerSlider = document.querySelector('.banner-slider');
+var prevControl = document.querySelector('.slider-control .prev');
+var nextControl = document.querySelector('.slider-control .next');
+
+var initialLeft = 0;
+var percent = 100;
+
+function bannerCarousel(initialLeft, sliderLength) {
+  bannerSlider.style.left = (initialLeft * percent) + "%";
+
+  if (initialLeft == 0) {
+    prevControl.classList.add("visibility-hidden");
+  } else {
+    prevControl.classList.remove("visibility-hidden");
+  }
+
+  if (initialLeft == -(sliderLength - 1)) {
+    nextControl.classList.add("visibility-hidden");
+  } else {
+    nextControl.classList.remove("visibility-hidden");
+  }
+}
+// *** banner slider : end *** //
+
 // *** API fetch : start *** //
 var apiLinkClub = 'https://raw.githubusercontent.com/openfootball/football.json/master/2015-16/en.1.clubs.json';
 var apiLinkMatch = 'https://raw.githubusercontent.com/openfootball/football.json/master/2019-20/en.1.json';
@@ -318,6 +343,34 @@ function indexPageJS() {
 
   activeAnchor();
 
+  // banner slider start 
+  var sliderLength = bannerSlider.children.length;
+
+  bannerCarousel(initialLeft, sliderLength);
+
+  setInterval(function () {
+    initialLeft--;
+
+    if (initialLeft == -sliderLength) {
+      initialLeft = 0;
+    }
+
+    bannerCarousel(initialLeft, sliderLength);
+  }, 2500);
+
+  prevControl.addEventListener("click", function () {
+    var x = -1;
+    initialLeft -= x;
+    bannerCarousel(initialLeft, sliderLength);
+  });
+
+  nextControl.addEventListener("click", function () {
+    var x = 1;
+    initialLeft -= x;
+    bannerCarousel(initialLeft, sliderLength);
+  });
+  // banner slider end
+
   menuToggle.addEventListener('click', function(){
     navMenuToggle();
   })
@@ -445,6 +498,8 @@ function loginPageJS() {
     var userObj = JSON.parse(localStorage.getItem("user"));
     if (userObj == null) {
       alert("It seems you are new user, please signup first");
+      loginEmail.value = "";
+      loginPassword.value = "";
     } else {
       var isLoginMatched = matchInputValue(loginEmail, loginPassword, loginEmailValue, loginPasswordValue, userObj);
     }
