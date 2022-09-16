@@ -21,10 +21,11 @@
           <div class="form-cards">
             <div class="login-card">
               <h2>login</h2>
+              <span class="new-user-alert">It seems you are new user, please Sign Up first</span>
               <form action="#FIXME" method="post" name="formLogin" class="form-login">
                 <div class="input-group">
                   <label for="loginEmail">email id</label>
-                  <input type="text" name="loginEmail" id="loginEmail" placeholder="yourname@prdxn.com" autocomplete="off">
+                  <input type="email" name="loginEmail" id="loginEmail" placeholder="yourname@prdxn.com" autocomplete="off">
                   <span class="errorAlert">email do not match</span>
                 </div>
                 <div class="input-group">
@@ -40,6 +41,7 @@
             </div>
             <div class="signup-card">
               <h2>sign up</h2>
+              <span class="signup-success-alert">Registration Successful!</span>
               <form action="#FIXME" method="post" name="formSignup" class="form-signup">
                 <div class="input-group">
                   <label for="yourName">name</label>
@@ -48,7 +50,7 @@
                 </div>
                 <div class="input-group">
                   <label for="signupEmail">email id</label>
-                  <input type="text" name="signupEmail" id="signupEmail" placeholder="yourname@axioned.com" autocomplete="off">
+                  <input type="email" name="signupEmail" id="signupEmail" placeholder="yourname@axioned.com" autocomplete="off">
                   <span class="errorAlert">enter valid email (eg: yourname@axioned.com)</span>
                 </div>
                 <div class="input-group">
