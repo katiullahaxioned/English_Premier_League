@@ -81,6 +81,8 @@ function bannerCarousel(initialLeft, sliderLength) {
 var apiLinkClub = 'https://raw.githubusercontent.com/openfootball/football.json/master/2015-16/en.1.clubs.json';
 var apiLinkMatch = 'https://raw.githubusercontent.com/openfootball/football.json/master/2019-20/en.1.json';
 
+var clubSummaryList = document.querySelector('.club-summary-list');
+
 // showMoreList()
 function showMoreList(startNum, endNum, listItem, showMoreButton) {
   for (var i = startNum; i < endNum; i++) {
@@ -95,6 +97,7 @@ function showMoreList(startNum, endNum, listItem, showMoreButton) {
 function showClubList(selectedValue, clubSummaryList, showMoreButton, apiLinkMatch) {
   fetch(apiLinkMatch)
     .then(function (response) {
+      if(response.status == 404) throw 'invalid API : fetch error!';
       return response.json();
     })
     .then(function (match) {
@@ -149,26 +152,46 @@ function showClubList(selectedValue, clubSummaryList, showMoreButton, apiLinkMat
       }
     })
     .catch(function (error) {
-      console.log(error);
+      clubSummaryList.innerHTML =
+          '<span style="text-align: center">' + error + '</span>';
     });
 }
 
+// showMatchSummary()
+function showMatchSummary(showMoreButton) {
+  var getTeamName = localStorage.getItem("teamName");
+  localStorage.removeItem("teamName");
+  
+  if (getTeamName) {
+    clubSummaryList.innerHTML = "";
+    selectClubList.value = getTeamName;
+    
+    if (selectClubList.value != "") {
+      showClubList(selectClubList.value, clubSummaryList, showMoreButton, apiLinkMatch);
+    } else {
+      clubSummaryList.innerHTML =
+        '<span style="text-align: center">no data found</span>';
+      showMoreButton.classList.remove("active");
+    }
+  }
+}
 // getClub()
-function getClub(selectClubList) {
-  fetch(apiLinkMatch)
+function getClubName(apiLinkClub, selectClubList, showMoreButton) {
+  var getClubAllArr = [];
+
+  fetch(apiLinkClub)
     .then(function (response) {
+      if(response.status == 404) throw 'invalid API : fetch error!';
       return response.json();
     })
-    .then(function (match) {
-      var matchAll = match.matches;
+    .then(function (eplClubs) {
+      var clubsAll = eplClubs.clubs;
+      getClubAllArr.push(eplClubs);
       var clubNamesArr = [];
 
-      matchAll.forEach(function (match) {
-        if (!clubNamesArr.includes(match.team1)) {
-          clubNamesArr.push(match.team1);
-        }
-        if (!clubNamesArr.includes(match.team2)) {
-          clubNamesArr.push(match.team2);
+      clubsAll.forEach(function (club) {
+        if (!clubNamesArr.includes(club.name)) {
+          clubNamesArr.push(club.name);
         }
       });
 
@@ -176,20 +199,27 @@ function getClub(selectClubList) {
         selectClubList.innerHTML +=
         '<option value="' + clubname + '">' + clubname + "</option>";
       });
+
+      showMatchSummary(showMoreButton);
     })
     .catch(function (error) {
-      console.log(error);
+      clubSummaryList.innerHTML =
+          '<span style="text-align: center">' + error + '</span>';
     });
+  return getClubAllArr;
 }
 
-// getMatchday()
-function getMatchday(selectMatchDay, clubSummaryList) {
+// getClubDetails()
+function getClubDetails(apiLinkMatch, selectMatchDay) {
+  var getMatchAllArr = [];
   fetch(apiLinkMatch)
     .then(function (response) {
+      if(response.status == 404) throw 'invalid API : fetch error!';
       return response.json();
     })
     .then(function (match) {
       var matchAll = match.matches;
+      getMatchAllArr.push(match);
       var matchDayArr = [];
 
       matchAll.forEach(function (match) {
@@ -202,55 +232,12 @@ function getMatchday(selectMatchDay, clubSummaryList) {
         selectMatchDay.innerHTML +=
           '<option value="' + matchday + '">' + matchday + "</option>";
       });
-
-      selectMatchDay.addEventListener("change", function () {
-        var selectedValue = this.value;
-
-        clubSummaryList.innerHTML = "";
-
-        if (this.value != "") {
-          var clubMatchAll = match.matches;
-          var clubMatchLength = clubMatchAll.length;
-
-          for (var j = 0; j < clubMatchLength; j++) {
-            if (selectedValue == clubMatchAll[j].round) {
-              clubSummaryList.innerHTML +=
-                '<li><span class="match-date">' +
-                clubMatchAll[j].date +
-                '</span><div class="team-summary"><div class="team-one-summary"><h4 class="team-one">' +
-                clubMatchAll[j].team1 +
-                '</h4><span class="team-one-score">' +
-                clubMatchAll[j].score.ft[0] +
-                '</span></div><div class="team-two-summary"><span class="team-two-score">' +
-                clubMatchAll[j].score.ft[1] +
-                '</span><h4 class="team-two">' +
-                clubMatchAll[j].team2 +
-                "</h4></div></div></li>";
-            }
-          }
-
-          var listItem = clubSummaryList.children;
-
-          if (listItem.length != 0) {
-            for (var a = 0; a < listItem.length; a++) {
-              var teams = listItem[a].querySelectorAll("h4");
-              teams.forEach(function (team) {
-                team.addEventListener("click", function () {
-                  localStorage.setItem("teamName", team.innerText);
-                  location.href = "English_Premier_League/../clublist.html";
-                });
-              });
-            }
-          } else {
-            clubSummaryList.innerHTML =
-              '<span style="text-align: center">no data found</span>';
-          }
-        }
-      });
     })
     .catch(function (error) {
-      console.log(error);
+      clubSummaryList.innerHTML =
+          '<span style="text-align: center">' + error + '</span>';
     });
+  return getMatchAllArr;
 }
 // *** API fetch : end *** //
 
@@ -267,7 +254,52 @@ function matchdetailsPageJS() {
   
   clubSummaryList.innerHTML = "";
 
-  getMatchday(selectMatchDay, clubSummaryList);
+  var getMatch = getClubDetails(apiLinkMatch, selectMatchDay);
+  
+  selectMatchDay.addEventListener("change", function () {
+    var selectedValue = this.value;
+    
+    clubSummaryList.innerHTML = "";
+    
+    if (this.value != "") {
+      var clubMatchAll = getMatch[0].matches;
+      var clubMatchLength = clubMatchAll.length;
+
+      for (var j = 0; j < clubMatchLength; j++) {
+        if (selectedValue == clubMatchAll[j].round) {
+          clubSummaryList.innerHTML +=
+            '<li><span class="match-date">' +
+            clubMatchAll[j].date +
+            '</span><div class="team-summary"><div class="team-one-summary"><h4 class="team-one">' +
+            clubMatchAll[j].team1 +
+            '</h4><span class="team-one-score">' +
+            clubMatchAll[j].score.ft[0] +
+            '</span></div><div class="team-two-summary"><span class="team-two-score">' +
+            clubMatchAll[j].score.ft[1] +
+            '</span><h4 class="team-two">' +
+            clubMatchAll[j].team2 +
+            "</h4></div></div></li>";
+        }
+      }
+
+      var listItem = clubSummaryList.children;
+
+      if (listItem.length != 0) {
+        for (var a = 0; a < listItem.length; a++) {
+          var teams = listItem[a].querySelectorAll("h4");
+          teams.forEach(function (team) {
+            team.addEventListener("click", function () {
+              localStorage.setItem("teamName", team.innerText);
+              location.href = "English_Premier_League/../clublist.html";
+            });
+          });
+        }
+      } else {
+        clubSummaryList.innerHTML =
+          '<span style="text-align: center">no data found</span>';
+      }
+    }
+  });
 
   menuToggle.addEventListener('click', function(){
     navMenuToggle();
@@ -294,25 +326,7 @@ function clublistPageJS() {
   clubSummaryList.innerHTML = "";
   showMoreButton.classList.remove("active");
 
-  getClub(selectClubList);
-
-  // *** get localStorage value of teamName : start *** //
-  setTimeout(function(){
-    var getTeamName = localStorage.getItem("teamName");
-    localStorage.removeItem("teamName");
-    
-    if (getTeamName) {
-      clubSummaryList.innerHTML = "";
-      selectClubList.value = getTeamName;
-      
-      if (selectClubList.value != "") {
-        showClubList(selectClubList.value, clubSummaryList, showMoreButton, apiLinkMatch);
-      } else {
-        console.log("err");
-      }
-    }
-  }, 1500)
-  // *** get localStorage value of teamName : end *** //
+  getClubName(apiLinkClub, selectClubList, showMoreButton);
 
   selectClubList.addEventListener("change", function () {
     var selectedValue = this.value;
@@ -392,11 +406,12 @@ function loginPageJS() {
   var signupName = formSignup.yourName;
   var signupEmail = formSignup.signupEmail;
   var signupPassword = formSignup.signupPassword;
-
+  
   var loginCard = document.querySelector(".login-card");
   var signupCard = document.querySelector(".signup-card");
   var spanSignup = document.querySelector(".span-signup");
   var spanLogin = document.querySelector(".span-login");
+  var signupSuccessAlert = document.querySelector('.signup-success-alert');
 
   // RegEx Pattern
   var nameRegEx = /^([a-zA-Z]{3,})$/;
@@ -452,14 +467,17 @@ function loginPageJS() {
 
       localStorage.setItem("user", JSON.stringify(userDetails));
 
-      alert("Registration Successful!");
+      signupSuccessAlert.classList.add('active');
 
-      loginCard.classList.remove("active");
-      signupCard.classList.remove("active");
-
-      signupName.value = "";
-      signupEmail.value = "";
-      signupPassword.value = "";
+      setTimeout(function(){
+        loginCard.classList.remove("active");
+        signupCard.classList.remove("active");
+        signupSuccessAlert.classList.remove('active');
+  
+        signupName.value = "";
+        signupEmail.value = "";
+        signupPassword.value = "";
+      },1000)
     }
   });
   // ------------ SignUp code end ------------- //
@@ -468,6 +486,7 @@ function loginPageJS() {
   var formLogin = document.formLogin;
   var loginEmail = formLogin.loginEmail;
   var loginPassword = formLogin.loginPassword;
+  var newUserAlert = document.querySelector('.new-user-alert');
 
   // matchInputValue()
   function matchInputValue(emailInput, passInput, emailValue, passValue, userObj) {
@@ -497,9 +516,14 @@ function loginPageJS() {
 
     var userObj = JSON.parse(localStorage.getItem("user"));
     if (userObj == null) {
-      alert("It seems you are new user, please signup first");
+      newUserAlert.classList.add('active');
       loginEmail.value = "";
       loginPassword.value = "";
+      loginEmail.nextElementSibling.classList.remove("active");
+
+      setTimeout(function(){
+        newUserAlert.classList.remove('active');
+      },3000)
     } else {
       var isLoginMatched = matchInputValue(loginEmail, loginPassword, loginEmailValue, loginPasswordValue, userObj);
     }
